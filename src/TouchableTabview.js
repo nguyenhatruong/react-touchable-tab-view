@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, useState, Fragment, forwardRef, useImperativeHandle } from 'react'
 
-export const TouchableTabview = ({ initialTab, children, renderTabBar }) => {
+export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar, tabBarPosition = 'top' }, ref) => {
   const [state, setState] = useState({
     sceneKeys: {},
     currentTab: initialTab || 0,
@@ -9,7 +9,10 @@ export const TouchableTabview = ({ initialTab, children, renderTabBar }) => {
 
   const { sceneKeys, currentTab, tabs } = state
 
-  const compact = (data = []) => data.filter(item => !!item)
+  React.useImperativeHandle(ref, () => ({
+    onChangeTab,
+    currentTab
+  }))
 
   useEffect(() => {
     if (children && compact(children).length !== tabs.length) {
@@ -21,14 +24,17 @@ export const TouchableTabview = ({ initialTab, children, renderTabBar }) => {
         })
       })
       const nextCurrentTab = currentTab >= initialTabs.length ? initialTabs.length - 1 : currentTab
-      setState({
-        ...state,
+      setState(prevState => ({
+        ...prevState,
         tabs: initialTabs,
         currentTab: nextCurrentTab,
         sceneKeys: newSceneKeys({ previousKeys: sceneKeys, tabIndex: nextCurrentTab }),
-      })
+      }))
     }
   }, [children])
+
+  const compact = (data = []) => data.filter(item => !!item)
+
 
   const newSceneKeys = ({ previousKeys = {}, tabIndex = currentTab }) => {
     const newKeys = {}
@@ -85,11 +91,12 @@ export const TouchableTabview = ({ initialTab, children, renderTabBar }) => {
 
   return (
     <>
-      {renderTab()}
+      {tabBarPosition === 'top' && renderTab()}
       {composeScenes()}
+      {tabBarPosition === 'bottom' && renderTab()}
     </>
   )
-}
+})
 
 TouchableTabview.defaultProps = {
   initialTab: 0

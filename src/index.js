@@ -1,1 +1,3 @@
-export * from './components/TouchableTabview'
+import { TouchableTabview } from './TouchableTabview'
+
+export default TouchableTabview

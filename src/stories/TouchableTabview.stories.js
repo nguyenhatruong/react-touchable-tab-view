@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { TouchableTabview } from '../components/TouchableTabview'
+import { TouchableTabview } from '../TouchableTabview'
 
 const stories = storiesOf('Touchable Test', module)
 
 stories.add('App', () => {
   return (
     <TouchableTabview
+      tabBarPosition='bottom'
+      initialTab={1}
       renderTabBar={({ tabs, onChangeTab }) => (
         <div>
           {tabs.map((tab, tabIndex) => (
-            <span style={{ marginLeft: 10 }} onClick={() => onChangeTab(tabIndex)}>{tab.label}</span>
+            <span key={tabIndex} style={{ marginRight: 10 }} onClick={() => onChangeTab(tabIndex)}>{tab.label}</span>
           ))}
         </div>
       )}
