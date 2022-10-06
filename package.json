@@ -1,6 +1,6 @@
 {
   "name": "react-touchable-tab-view",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A simple tabview",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
