@@ -12,13 +12,13 @@ the animations behind this work, check out the Rebound section of the
 ## Add it to your project
 
 1. Run `npm install react-touchable-tab-view --save` or `yarn add react-touchable-tab-view --save`
-2. `import TouchableTabView = require('react-touchable-tab-view');`
+2. `import TouchableTabView from 'react-touchable-tab-view'`
 
 
 ## Basic usage
 
 ```javascript
-import TouchableTabView = require('react-touchable-tab-view');
+import TouchableTabView from 'react-touchable-tab-view'
 
 const App = () => {
 
