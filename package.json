@@ -1,6 +1,6 @@
 {
   "name": "react-touchable-tab-view",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "A simple tabview",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -43,5 +43,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nguyenhatruong/react-touchable-tab-view"
+  }
 }
