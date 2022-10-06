@@ -53,7 +53,7 @@ const App = () => {
   - `"bottom"` to position the tab bar below content.
 - **`onChangeTab`** _(Function)_ - function to call when tab changes, should accept 1 argument which is an Object containing two keys: `i`: the index of the tab that is selected, `ref`: the ref of the tab that is selected
 - **`initialTab`** _(Integer)_ - the index of the initially selected tab, defaults to 0 === first tab.
-- **`children`** _(ReactComponents)_ - each top-level child component should have a `tabLabel` prop that can be used by the tab bar component to render out the labels. The default tab bar expects it to be a string, but you can use anything you want if you make a custom tab bar.
+- **`children`** _(ReactComponents)_ - each top-level child component should have a `tabLabel` and `tabIcon` prop that can be used by the tab bar component to render out the labels. The default tab bar expects it to be a string, but you can use anything you want if you make a custom tab bar.
 
 ---
 
