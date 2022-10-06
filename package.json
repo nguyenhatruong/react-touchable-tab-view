@@ -1,6 +1,6 @@
 {
   "name": "react-touchable-tab-view",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A simple tabview",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -13,7 +13,9 @@
   },
   "keywords": [
     "react",
-    "tabview"
+    "tabview",
+    "touchable tab",
+    "react-touchable-tab-view"
   ],
   "author": "nguyenhatruong",
   "license": "MIT",
