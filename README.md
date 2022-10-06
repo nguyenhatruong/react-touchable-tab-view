@@ -26,7 +26,11 @@ const App = () => {
     return (
       <div>
         {tabs.map((tab, tabIndex) => (
-          <span key={tabIndex} style={{ marginRight: 10 }} onClick={() => onChangeTab(tabIndex)}>
+          <span
+            key={tabIndex}
+            style={{ marginRight: 10 }}
+            onClick={() => onChangeTab(tabIndex)}
+          >
             <i className={tab.icon} />
             {tab.label}
           </span>
