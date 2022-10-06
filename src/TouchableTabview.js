@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment, forwardRef, useImperativeHandle } from 'react'
 
-export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar, tabBarPosition = 'top' }, ref) => {
+export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar, tabBarPosition }, ref) => {
   const [state, setState] = useState({
     sceneKeys: {},
     currentTab: initialTab || 0,
@@ -9,7 +9,7 @@ export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar
 
   const { sceneKeys, currentTab, tabs } = state
 
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     onChangeTab,
     currentTab
   }))
@@ -33,8 +33,7 @@ export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar
     }
   }, [children])
 
-  const compact = (data = []) => data.filter(item => !!item)
-
+  const compact = (items = []) => items.filter(item => !!item)
 
   const newSceneKeys = ({ previousKeys = {}, tabIndex = currentTab }) => {
     const newKeys = {}
@@ -99,5 +98,6 @@ export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar
 })
 
 TouchableTabview.defaultProps = {
-  initialTab: 0
+  initialTab: 0,
+  tabBarPosition: 'top'
 }
