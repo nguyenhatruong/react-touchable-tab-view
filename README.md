@@ -33,9 +33,9 @@ const App = () => {
 
   return (
     <TouchableTabView renderTabBar={renderTabBar}>
-      <ReactPage tabLabel='React' tabIcon='icon-react' />
-      <FlowPage tabLabel='Flow' tabIcon='icon-flow'  />
-      <JestPage tabLabel='Jest' tabIcon='icon-jest' />
+      <ReactPage tabLabel='React' tabIcon='icon-react' className='h-full' />
+      <FlowPage tabLabel='Flow' tabIcon='icon-flow' className='h-full' />
+      <JestPage tabLabel='Jest' tabIcon='icon-jest' className='h-full' />
     </TouchableTabView>
   );
 }
