@@ -1,9 +1,10 @@
 {
   "name": "react-touchable-tab-view",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "A simple tabview with reactjs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "types": "src/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
