@@ -12,7 +12,7 @@ export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar
   useImperativeHandle(ref, () => ({
     onChangeTab,
     currentTab
-  }))
+  }), [currentTab])
 
   useEffect(() => {
     if (children && compact(children).length !== tabs.length) {
@@ -75,7 +75,7 @@ export const TouchableTabview = forwardRef(({ initialTab, children, renderTabBar
 
   const onChangeTab = (tabIndex) => {
     const newKeys = newSceneKeys({ previousKeys: sceneKeys, tabIndex })
-    setState({ ...state, currentTab: tabIndex, sceneKeys: newKeys })
+    setState(prevState => ({ ...prevState, currentTab: tabIndex, sceneKeys: newKeys }))
   }
 
   const renderTab = () => {
