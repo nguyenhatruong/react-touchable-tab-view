@@ -4,7 +4,7 @@ export const TouchableTabview = forwardRef(
   ({ initialTab, children, renderTabBar, tabBarPosition }, ref) => {
     const [state, setState] = useState({
       sceneKeys: {},
-      currentTab: Math.max(initialTab, 0),
+      currentTab: Math.max(isNaN(initialTab) ? 0 : initialTab, 0),
       tabs: [],
     })
 
