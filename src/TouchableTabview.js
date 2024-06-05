@@ -71,7 +71,7 @@ export const TouchableTabview = forwardRef(
         return (
           <Fragment key={child.key}>
             {keyExists(sceneKeys, key) ? (
-              <div hidden={!isActive} className={className && [className]}>
+              <div className={className && [className]} style={!isActive ? { display: 'none' } : {}}>
                 {childClone}
               </div>
             ) : (
