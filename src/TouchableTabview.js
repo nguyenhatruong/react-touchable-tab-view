@@ -1,112 +1,68 @@
-import React, { useEffect, useState, Fragment, forwardRef, useImperativeHandle } from 'react'
+import React, { useMemo, useState, forwardRef, useImperativeHandle, useCallback } from 'react'
 
 export const TouchableTabview = forwardRef(
-  ({ initialTab, children, renderTabBar, tabBarPosition }, ref) => {
-    const [state, setState] = useState({
-      sceneKeys: {},
-      currentTab: Math.max(isNaN(initialTab) ? 0 : initialTab, 0),
-      tabs: [],
-    })
+  ({ initialTab = 0, children, renderTabBar, tabBarPosition = 'top' }, ref) => {
+    const [currentTab, setCurrentTab] = useState(() => Math.max(isNaN(initialTab) ? 0 : initialTab, 0))
+    const [visitedTabs, setVisitedTabs] = useState({ [currentTab]: true })
 
-    const { sceneKeys, currentTab, tabs } = state
+    const childrenArray = useMemo(() => React.Children.toArray(children).filter(Boolean), [children])
+
+    const tabs = useMemo(() =>
+      childrenArray.map((child) => ({
+        label: child?.props?.tabLabel || '',
+        icon: child?.props?.tabIcon || '',
+      })), [childrenArray]
+    )
+
+    const safeCurrentTab = currentTab >= childrenArray.length ? Math.max(childrenArray.length - 1, 0) : currentTab
+
+    const onChangeTab = useCallback((index) => {
+      setCurrentTab(index)
+      setVisitedTabs((prev) => (prev[index] ? prev : { ...prev, [index]: true }))
+    }, [])
 
     useImperativeHandle(ref, () => ({
       onChangeTab,
-      currentTab,
-    }))
+      currentTab: safeCurrentTab,
+    }), [onChangeTab, safeCurrentTab])
 
-    useEffect(() => {
-      if (children && compact(children).length !== tabs.length) {
-        const initialTabs = []
-        getChildren().map((child) => {
-          initialTabs.push({
-            label: child.props.tabLabel,
-            icon: child.props.tabIcon || '',
-          })
-        })
-        const nextCurrentTab =
-          currentTab >= initialTabs.length ? initialTabs.length - 1 : currentTab
-        setState((prevState) => ({
-          ...prevState,
-          tabs: initialTabs,
-          currentTab: nextCurrentTab,
-          sceneKeys: newSceneKeys({ previousKeys: sceneKeys, tabIndex: nextCurrentTab }),
-        }))
-      }
-    }, [children])
+    const scenes = useMemo(() =>
+      childrenArray.map((child, idx) => {
+        const isActive = idx === safeCurrentTab
+        const isVisited = visitedTabs[idx] || isActive
 
-    const compact = (items) => {
-      if (Array.isArray(items)) {
-        return items.filter((item) => !!item)
-      }
-      return [items]
-    }
-
-    const newSceneKeys = ({ previousKeys = {}, tabIndex = currentTab }) => {
-      const newKeys = {}
-      getChildren().forEach((child, idx) => {
-        const key = makeSceneKey(child, idx)
-        if (keyExists(previousKeys, key) || idx === tabIndex) {
-          newKeys[key] = true
+        if (!isVisited) {
+          return <div key={idx} />
         }
-      })
-      return newKeys
-    }
 
-    const getChildren = () => React.Children.map(children, (child) => child)
+        const { className, ...otherProps } = child.props
 
-    const makeSceneKey = (child, idx) => `${child.props.tabLabel}_${idx}`
-
-    const keyExists = (sceneKey, key) => sceneKey[key] === true
-
-    const composeScenes = () =>
-      getChildren().map((child, idx) => {
-        const key = makeSceneKey(child, idx)
-        const isActive = idx === currentTab
-        const { className, tabLabel, tabIcon, ...otherProps } = child.props
-        const childClone = {
-          ...child,
-          props: { ...otherProps },
-        }
         return (
-          <Fragment key={child.key}>
-            {keyExists(sceneKeys, key) ? (
-              <div className={className && [className]} style={!isActive ? { display: 'none' } : {}}>
-                {childClone}
-              </div>
-            ) : (
-              <div label={tabLabel} icon={tabIcon || ''} />
-            )}
-          </Fragment>
+          <div
+            key={idx}
+            className={className}
+            style={!isActive ? { display: 'none' } : {}}
+          >
+            {React.cloneElement(child, otherProps)}
+          </div>
         )
-      })
+      }), [childrenArray, safeCurrentTab, visitedTabs]
+    )
 
-    const onChangeTab = (tabIndex) => {
-      const newKeys = newSceneKeys({ previousKeys: sceneKeys, tabIndex })
-      setState((prevState) => ({ ...prevState, currentTab: tabIndex, sceneKeys: newKeys }))
-    }
-
-    const renderTab = () => {
-      if (typeof renderTabBar === 'function') {
-        return renderTabBar({
-          tabs,
-          currentTab,
-          onChangeTab,
-        })
-      }
-    }
+    const tabBar = typeof renderTabBar === 'function' ? renderTabBar({
+      tabs,
+      currentTab: safeCurrentTab,
+      onChangeTab,
+    }) : null
 
     return (
       <>
-        {tabBarPosition === 'top' && renderTab()}
-        {composeScenes()}
-        {tabBarPosition === 'bottom' && renderTab()}
+        {tabBarPosition === 'top' && tabBar}
+        {scenes}
+        {tabBarPosition === 'bottom' && tabBar}
       </>
     )
   }
 )
 
-TouchableTabview.defaultProps = {
-  initialTab: 0,
-  tabBarPosition: 'top',
-}
+TouchableTabview.displayName = 'TouchableTabview'
