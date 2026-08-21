@@ -1,6 +1,8 @@
 
 ## react-touchable-tab-view
 
+Supports React 18 and React 19.
+
 ## Add it to your project
 
 1. Run `npm install react-touchable-tab-view --save` or `yarn add react-touchable-tab-view --save`
