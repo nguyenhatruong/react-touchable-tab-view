@@ -35,7 +35,7 @@ export const TouchableTabview = forwardRef(
           return <div key={idx} />
         }
 
-        const { className, ...otherProps } = child.props
+        const { className } = child.props
 
         return (
           <div
@@ -43,7 +43,7 @@ export const TouchableTabview = forwardRef(
             className={className}
             style={!isActive ? { display: 'none' } : {}}
           >
-            {React.cloneElement(child, otherProps)}
+            {React.cloneElement(child, { className: undefined })}
           </div>
         )
       }), [childrenArray, safeCurrentTab, visitedTabs]

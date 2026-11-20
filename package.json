@@ -1,6 +1,6 @@
 {
   "name": "react-touchable-tab-view",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A simple tabview with reactjs",
   "main": "dist/index.js",
   "types": "src/index.d.ts",
